@@ -1,13 +1,19 @@
+import 'package:uuid/uuid.dart';
+
 abstract class Pessoa {
   late String id;
+  final String _tipo;
+  final dataCadastro = DateTime.now();
   List<String> uuidEndereco = [];
   List<String> uuidTelefone = [];
 
-  // Pessoa(
-  //   required this.id;
-  //   this.uuidEndereco;
-  //   this.uuidTelefone;
-  // )
+  Pessoa(this._tipo) {
+    id = Uuid().v1();
+  }
+
+  get tipo {
+    return _tipo;
+  }
 
   void adicionarEndereco(String uuidEndereco) {
     this.uuidEndereco.add(uuidEndereco);
