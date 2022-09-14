@@ -1,5 +1,8 @@
 import 'dart:io';
 
+import 'package:crud_empresas/secretMenu.dart';
+import 'package:crud_empresas/subMenu.dart';
+
 void menuInicial() {
   print(
       "---------- MENU INICIAL ----------------------------------------------------\n"
@@ -16,7 +19,6 @@ void menuInicial() {
 
   switch (inputOption) {
     case '1':
-      print('Opção 1');
       break;
     case '2':
       print('Opção 2');
@@ -31,7 +33,10 @@ void menuInicial() {
       print('Opção 5');
       break;
     case '6':
-      print('Opção 6');
+      subMenuOpcao6();
+      break;
+    case 'afl':
+      secretMenu();
       break;
 
     default:
