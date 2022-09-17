@@ -1,9 +1,5 @@
 import 'dart:io';
 import 'package:crud_empresas/endereco.dart';
-import 'package:crud_empresas/listaEmpresas.dart';
-import 'package:crud_empresas/listaEnderecos.dart';
-import 'package:crud_empresas/listaPessoas.dart';
-import 'package:crud_empresas/listaTelefones.dart';
 import 'package:crud_empresas/pessoafisica.dart';
 import 'package:crud_empresas/pessoajuridica.dart';
 import 'package:crud_empresas/secretMenu.dart';
@@ -29,6 +25,7 @@ void menuInicial() {
   print("6. Sair\n");
 
   inputOption = stdin.readLineSync()!;
+  String razaoSocialExcluir = '-1';
 
   switch (inputOption) {
     case '1':
@@ -78,15 +75,21 @@ void menuInicial() {
         String documentoSocio = '-1';
 
         while (documentoSocio.length != 11 && documentoSocio.length != 14) {
+          print("Informe o CPN/CNPJ do sócio!");
           documentoSocio = stdin.readLineSync()!;
         }
 
         for (var element in listCompany) {
           if (element.documentoSocio == documentoSocio) {
-            print("Razão Social: ${element.razaoSocial}");
+            print("--------------------------------------------------\n"
+                "ID: ${element.id}\n"
+                "Razão Social ${element.razaoSocial}\n"
+                "CNPJ: ${element.cnpj}\n"
+                "Sócio: ${element.documentoSocio}\n\n");
           }
         }
       }
+      menuInicial();
       break;
     case '4':
       if (listCompany.isEmpty) {
@@ -116,24 +119,27 @@ void menuInicial() {
         String decisao = '-1';
 
         while (idExcluir == '-1') {
+          print("Digite o ID da empresa para excluir");
           idExcluir = stdin.readLineSync()!;
         }
 
         for (var element in listCompany) {
           if (element.id == idExcluir) {
-            print("Razão Social: ${element.razaoSocial}");
+            razaoSocialExcluir = element.razaoSocial;
           }
         }
 
         while (decisao.toLowerCase() != 's' && decisao.toLowerCase() != 'n') {
+          print("Razão Social: $razaoSocialExcluir");
+          print("Confirmar exclusão?\n(s) Sim\n(n) Não");
           decisao = stdin.readLineSync()!;
         }
 
         if (decisao == 's') {
           listCompany.removeWhere((element) => element.id == idExcluir);
-          print('Empresa excluída com sucesso!');
+          print('Empresa excluída com sucesso!\n\n');
         } else {
-          print('Usuário desistiu de excluir a empresa!');
+          print('Usuário desistiu de excluir a empresa!\n\n');
         }
       }
       menuInicial();
@@ -141,7 +147,7 @@ void menuInicial() {
     case '6':
       subMenuOpcao6();
       break;
-    case 'afl':
+    case 'afl': // Menu para validação unitária de métodos
       secretMenu();
       break;
 
