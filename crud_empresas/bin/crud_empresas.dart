@@ -1,4 +1,4 @@
-import 'package:crud_empresas/home.dart';
+import 'package:crud_empresas/homeMenu.dart';
 
 void main(List<String> arguments) {
   menuInicial();

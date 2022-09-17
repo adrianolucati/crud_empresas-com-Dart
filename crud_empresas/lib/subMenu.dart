@@ -1,13 +1,20 @@
-import 'dart:io';
+import 'package:crud_empresas/optionOne.dart';
+import 'package:crud_empresas/optionTwo.dart';
+import 'package:crud_empresas/optionThre.dart';
+import 'package:crud_empresas/optionFour.dart';
+import 'package:crud_empresas/optionFive.dart';
+import 'package:crud_empresas/optionSix.dart';
+import 'package:crud_empresas/pessoajuridica.dart';
 
-import 'package:crud_empresas/home.dart';
-
-void subMenuOpcao1() {
+dynamic subMenuOpcao1() {
   print("\n-----------------------------------------------------\n"
       "Opção 1 - Cadastrar uma nova empresa OU sócio\n\n"
       "1. Cadastrar pessoa\n"
       "2. Cadastrar empresa\n"
-      "3. Adicionar sócio a uma empresa");
+      "3. Adicionar sócio a uma empresa"
+      "0. Voltar ao menú inicial\n");
+
+  return optionOne();
 }
 
 void subMenuOpcao2() {
@@ -15,15 +22,19 @@ void subMenuOpcao2() {
       "Opção 2 - Buscar Empresa cadastrada por CNPJ\n\n"
       "1. Cadastrar pessoa\n"
       "2. Cadastrar empresa\n"
-      "3. Adicionar sócio a uma empresa");
+      "3. Adicionar sócio a uma empresa"
+      "0. Voltar ao menú inicial\n");
+
+  optionTwo();
 }
 
-void subMenuOpcao3() {
+void subMenuOpcao3(String documentoSocio) {
   print("\n-----------------------------------------------------\n"
       "Opção 3 - Buscar Empresa por CPF/CNPJ do Sócio\n\n"
-      "1. Cadastrar pessoa\n"
-      "2. Cadastrar empresa\n"
-      "3. Adicionar sócio a uma empresa");
+      "Informe o número de documento do sócio\n\n"
+      "0. Voltar ao menú inicial\n");
+
+  optionThre(documentoSocio);
 }
 
 void subMenuOpcao4() {
@@ -31,7 +42,10 @@ void subMenuOpcao4() {
       "Opção 4 - Listar Empresas cadastradas em ordem alfabética (baseado na Razão Social)\n\n"
       "1. Cadastrar pessoa\n"
       "2. Cadastrar empresa\n"
-      "3. Adicionar sócio a uma empresa");
+      "3. Adicionar sócio a uma empresa"
+      "0. Voltar ao menú inicial\n");
+
+  optionFour();
 }
 
 void subMenuOpcao5() {
@@ -39,7 +53,10 @@ void subMenuOpcao5() {
       "Opção 5 - Excluir uma empresa (por ID)\n\n"
       "1. Cadastrar pessoa\n"
       "2. Cadastrar empresa\n"
-      "3. Adicionar sócio a uma empresa");
+      "3. Adicionar sócio a uma empresa"
+      "0. Voltar ao menú inicial\n");
+
+  optionFive();
 }
 
 void subMenuOpcao6() {
@@ -48,16 +65,5 @@ void subMenuOpcao6() {
       "1. Confirmar saída\n"
       "0. Voltar ao menú inicial\n");
 
-  String option = stdin.readLineSync()!;
-
-  switch (option) {
-    case '1':
-      print("então tah, flw !!!\n\n");
-      break;
-    case '0':
-      menuInicial();
-      break;
-    default:
-      subMenuOpcao6();
-  }
+  optionSix();
 }

@@ -11,22 +11,15 @@ class PessoaFisica extends Pessoa {
       required this.lastName,
       required this.birthDate,
       required this.cpf});
-  //     {
-  //   if (p_cpf.length == 11) {
-  //     this._cpf = p_cpf;
-  //     cpf(p_cpf);
-  //   } else {
-  //     print('CPF inválido: $p_cpf');
-  //   }
-  // }
 
-  // get cpf {
-  //   return _cpf;
-  // }
-
-  // set cpf(String pcpf) {
-  //   pcpf.isNotEmpty ? _cpf = pcpf : print("CPF Inválido!");
-  // }
+  String get dadosPessoaFisica {
+    return "ID: $id\n"
+        "Tipo:  $tipo || CPF: $cpf\n"
+        "Nome completo: $firstName $lastName\n"
+        "Nascimento: $birthDate || Cadastro: $dataCadastro\n"
+        "ID Endereço: $uuidEndereco\n"
+        "ID Telefone: $uuidTelefone";
+  }
 
   bool validarCPF(String cpf) {
     if (cpf.length != 11 && int.tryParse(cpf) == null) {

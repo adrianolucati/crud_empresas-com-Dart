@@ -1,12 +1,12 @@
-
-
 import 'package:crud_empresas/pessoafisica.dart';
 
 class ListaPessoas {
   List<PessoaFisica> pessoas = [];
 
-  void adicionarPessoa(PessoaFisica pessoa) {
-    pessoas.add(pessoa);
+  ListaPessoas(this.pessoas);
+
+  get getPessoas {
+    return pessoas;
   }
 
   void listarPessoas() {
@@ -14,7 +14,7 @@ class ListaPessoas {
     //   print("${pessoas.}");
     // }
     for (var pessoa in pessoas) {
-      print(pessoa.);
+      print(pessoa.firstName);
     }
   }
 

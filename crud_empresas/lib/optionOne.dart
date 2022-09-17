@@ -1,26 +1,38 @@
 import 'dart:io';
-
+import 'package:crud_empresas/listaPessoas.dart';
+import 'package:crud_empresas/homeMenu.dart';
 import 'package:crud_empresas/pessoafisica.dart';
+import 'package:crud_empresas/pessoajuridica.dart';
+import 'package:crud_empresas/subMenu.dart';
 
-void optionOne() {
+dynamic optionOne() {
   String inputType = '';
-  String inputFirtName = '-1';
-  String inputLastName = '-1';
-  String inputBirthDate = '-1';
-  String inputDocumento = '-1';
 
-  while (inputType != 'Pessoa Fisica' && inputType != 'Pessoa Juridica') {
+  while (inputType != 'PF' && inputType != 'PJ' && inputType != 'Socio') {
     // Valida entrada do campo 'Tipo de Pessoa'
-    print(
-        "Informe o número da opção desejada:\n1. Pessoa Fisica\n2. Pessoa Juridica\n\n0. Retornar ao menú inicial");
+
     inputType = stdin.readLineSync()!;
 
     if (inputType == '1') {
-      inputType = 'Pessoa Fisica';
+      inputType = 'PF';
+      return validarDadosPF(inputType);
     } else if (inputType == '2') {
-      inputType = 'Pessoa Juridica';
+      inputType = 'PJ';
+      return validarDadosPJ(inputType);
+    } else if (inputType == '3') {
+      inputType = 'Socio';
+      return validarDadosPF(inputType);
+    } else if (inputType == '0') {
+      subMenuOpcao1();
     }
   }
+}
+
+PessoaFisica validarDadosPF(String tipo) {
+  String inputFirtName = '-1';
+  String inputLastName = '-1';
+  String inputBirthDate = '-1';
+  String inputDocument = '-1';
 
   while (
       inputFirtName == '-1' || double.tryParse(inputFirtName)?.isNaN == false) {
@@ -29,7 +41,9 @@ void optionOne() {
         "Informe o Primerio None ou;\n número 0 para Retornar ao menú inicial");
     inputFirtName = stdin.readLineSync()!;
 
-    if (inputFirtName.isEmpty) {
+    if (inputFirtName == '0') {
+      menuInicial();
+    } else if (inputFirtName.isEmpty) {
       inputFirtName = '-1';
     }
   }
@@ -40,42 +54,123 @@ void optionOne() {
     print("Informe o Sobrenome ou;\n número 0 para Retornar ao menú inicial");
     inputLastName = stdin.readLineSync()!;
 
-    if (inputLastName.isEmpty) {
+    if (inputLastName == '0') {
+      menuInicial();
+    } else if (inputLastName.isEmpty) {
       inputLastName = '-1';
     }
   }
 
-  while (inputDocumento == '-1' ||
-      double.tryParse(inputDocumento)?.isNaN == true) {
+  while (
+      inputBirthDate == '-1' || double.tryParse(inputDocument)?.isNaN == true) {
     // Valida entrada do campo 'Último Nome'
     print(
-        "Informe a Data de Nascimentn (formato: Ano/Mês/Dia) ou;\n número 0 para Retornar ao menú inicial");
+        "Informe a Data de Nascimentn (formato: Ano/Mês/Dia [SOMENTE NÚMEROS]) ou;\n0 para Retornar ao menú inicial");
     inputBirthDate = stdin.readLineSync()!;
 
-    if (inputBirthDate.isEmpty) {
+    if (inputBirthDate == '0') {
+      menuInicial();
+    } else if (inputBirthDate.isEmpty) {
       inputBirthDate = '-1';
     }
   }
 
-  while (inputDocumento == '-1' ||
-      double.tryParse(inputDocumento)?.isNaN == true) {
+  while (
+      inputDocument == '-1' || double.tryParse(inputDocument)?.isNaN == true) {
     // Valida entrada do campo 'Último Nome'
-    print("Informe o CPF/CNPJ ou;\n número 0 para Retornar ao menú inicial");
-    inputDocumento = stdin.readLineSync()!;
+    print(
+        "Informe o CPF (somente números) ou;\n número 0 para Retornar ao menú inicial");
+    inputDocument = stdin.readLineSync()!;
 
-    if (inputDocumento.isEmpty) {
-      inputDocumento = '-1';
+    if (inputDocument == '0') {
+      menuInicial();
+    } else if (inputDocument.isEmpty) {
+      inputDocument = '-1';
     }
   }
 
-  PessoaFisica pessoa = PessoaFisica("PF",
-      firstName: "Adriano",
-      lastName: "Lucati",
-      birthDate: DateTime.parse("1992-03-21"),
-      cpf: "78901286904");
+  PessoaFisica pf = PessoaFisica("PF",
+      firstName: inputFirtName,
+      lastName: inputLastName,
+      birthDate: DateTime.parse(inputBirthDate),
+      cpf: inputDocument);
+
+  // ListaPessoas newPerson = pf as ListaPessoas;
 
   print(
-      "${pessoa.tipo}\n${pessoa.firstName}\n${pessoa.lastName}\n${pessoa.birthDate}\n${pessoa.cpf}\n${pessoa.id}\n${pessoa.dataCadastro}");
+      "${pf.tipo}\n${pf.firstName}\n${pf.lastName}\n${pf.birthDate}\n${pf.cpf}\n${pf.id}\n${pf.dataCadastro}");
 
-  print("Verificação: ${pessoa.validarCPF(pessoa.cpf)}");
+  print("Verificação: ${pf.validarCPF(pf.cpf)}");
+
+  return pf;
+}
+
+PessoaJuridica validarDadosPJ(String tipo) {
+  String inputSocialReason = '-1';
+  String inputFantasyName = '-1';
+  String inputPartnerDocument = '-1';
+  String inputDocument = '-1';
+
+  while (inputSocialReason == '-1' ||
+      double.tryParse(inputSocialReason)?.isNaN == false) {
+    // Valida entrada do campo 'Primeiro Nome'
+    print(
+        "Informe a RAZÃO SOCIAL ou;\n número 0 para Retornar ao menú inicial");
+    inputSocialReason = stdin.readLineSync()!;
+
+    if (inputSocialReason == '0') {
+      menuInicial();
+    } else if (inputSocialReason.isEmpty) {
+      inputSocialReason = '-1';
+    }
+  }
+
+  while (inputFantasyName == '-1' ||
+      double.tryParse(inputFantasyName)?.isNaN == false) {
+    // Valida entrada do campo 'Último Nome'
+    print(
+        "Informe o NOME FANTASIA ou;\n número 0 para Retornar ao menú inicial");
+    inputFantasyName = stdin.readLineSync()!;
+
+    if (inputFantasyName == '0') {
+      menuInicial();
+    } else if (inputFantasyName.isEmpty) {
+      inputFantasyName = '-1';
+    }
+  }
+
+  while (inputPartnerDocument == '-1' ||
+      double.tryParse(inputDocument)?.isNaN == true) {
+    // Valida entrada do campo 'Último Nome'
+    print(
+        "Informe o número de documento do sócio ou;\n0 para Retornar ao menú inicial");
+    inputPartnerDocument = stdin.readLineSync()!;
+
+    if (inputPartnerDocument == '0') {
+      menuInicial();
+    } else if (inputPartnerDocument.isEmpty) {
+      inputPartnerDocument = '-1';
+    }
+  }
+
+  while (
+      inputDocument == '-1' || double.tryParse(inputDocument)?.isNaN == true) {
+    // Valida entrada do campo 'Último Nome'
+    print(
+        "Informe o CNPJ (somente números) ou;\n número 0 para Retornar ao menú inicial");
+    inputDocument = stdin.readLineSync()!;
+
+    if (inputDocument == '0') {
+      menuInicial();
+    } else if (inputDocument.isEmpty) {
+      inputDocument = '-1';
+    }
+  }
+
+  PessoaJuridica pj = PessoaJuridica("PJ",
+      razaoSocial: inputSocialReason,
+      nomeFantasia: inputFantasyName,
+      documentoSocio: inputPartnerDocument,
+      cnpj: inputDocument);
+  return pj;
 }

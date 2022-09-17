@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'home.dart';
+import 'homeMenu.dart';
 import 'pessoafisica.dart';
 
 void secretMenu() {
@@ -39,6 +39,8 @@ void secretMenu() {
 
       validarCPF(inputDocumento);
 
+      break;
+    case '5':
       break;
     default:
       menuInicial();
