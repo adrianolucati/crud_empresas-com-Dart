@@ -1,4 +1,8 @@
 import 'dart:io';
+import 'package:crud_empresas/crudEndereco.dart';
+import 'package:crud_empresas/crudPessoaFisica.dart';
+import 'package:crud_empresas/crudPessoaJuridica.dart';
+import 'package:crud_empresas/crudTelefone.dart';
 import 'package:crud_empresas/endereco.dart';
 import 'package:crud_empresas/pessoafisica.dart';
 import 'package:crud_empresas/pessoajuridica.dart';
@@ -22,10 +26,11 @@ void menuInicial() {
   print(
       "4. Listar Empresas cadastradas em ordem alfabética (baseado na Razão Social)\n");
   print("5. Excluir uma empresa (por ID)\n");
-  print("6. Sair\n");
+  print("6. Acessar dados de Empresa/Socios \n");
+  print("0. Sair\n");
 
   inputOption = stdin.readLineSync()!;
-  String razaoSocialExcluir = '-1';
+  String razaoSocialExcluir = 'ID EMPRESA NÃO ENCONTRADO';
 
   switch (inputOption) {
     case '1':
@@ -49,22 +54,11 @@ void menuInicial() {
     case '2':
       if (listCompany.isEmpty) {
         print('Nenhuma empresa cadastrada');
-        menuInicial();
       } else {
         print('Opção 2 - Buscar Empresa cadastrada por CNPJ\n\n');
-        String cnpj = '-1';
-
-        while (cnpj.length != 11 && cnpj.length != 14) {
-          cnpj = stdin.readLineSync()!;
-        }
-
-        for (var element in listCompany) {
-          if (element.cnpj == cnpj) {
-            print("Razão Social: ${element.razaoSocial}");
-          }
-        }
-        menuInicial();
+        buscarEmpresaCNPJ(cnpj: null, documentoSocio: null);
       }
+      menuInicial();
       break;
     case '3':
       if (listCompany.isEmpty) {
@@ -72,22 +66,7 @@ void menuInicial() {
         menuInicial();
       } else {
         print('Opção 3 - Buscar Empresa por CPF/CNPJ do Sócio\n\n');
-        String documentoSocio = '-1';
-
-        while (documentoSocio.length != 11 && documentoSocio.length != 14) {
-          print("Informe o CPN/CNPJ do sócio!");
-          documentoSocio = stdin.readLineSync()!;
-        }
-
-        for (var element in listCompany) {
-          if (element.documentoSocio == documentoSocio) {
-            print("--------------------------------------------------\n"
-                "ID: ${element.id}\n"
-                "Razão Social ${element.razaoSocial}\n"
-                "CNPJ: ${element.cnpj}\n"
-                "Sócio: ${element.documentoSocio}\n\n");
-          }
-        }
+        buscarEmpresaCNPJ(cnpj: null, documentoSocio: null);
       }
       menuInicial();
       break;
@@ -96,14 +75,22 @@ void menuInicial() {
         print('Nenhuma empresa cadastrada');
         menuInicial();
       } else {
-        print(
-            'Opção 4 - Listar Empresas cadastradas em ordem alfabética (baseado na Razão Social)\n\n');
-        for (var element in listCompany) {
-          print("--------------------------------------------------\n"
-              "ID: ${element.id}\n"
-              "Razão Social ${element.razaoSocial}\n"
-              "CNPJ: ${element.cnpj}\n"
-              "Sócio: ${element.documentoSocio}\n\n");
+        while (inputOption != '1' && inputOption != '2' && inputOption != '3') {
+          print(
+              'Opção 4 - Listar Empresas cadastradas em ordem alfabética (baseado na Razão Social)\n'
+              '1. Ascendente\n'
+              '2. Descendente\n'
+              '3. Listar ordem original\n'
+              '0. Voltar\n');
+          inputOption = stdin.readLineSync()!;
+        }
+
+        if (inputOption != '1') {
+          listarEmpresasEmOrdem(ascending: true);
+        } else if (inputOption != '2') {
+          listarEmpresasEmOrdem(ascending: false);
+        } else if (inputOption != '3') {
+          listarEmpresasEmOrdem(ascending: null);
         }
       }
       menuInicial();
@@ -145,6 +132,48 @@ void menuInicial() {
       menuInicial();
       break;
     case '6':
+      while (inputOption != '0' &&
+          inputOption != '1' &&
+          inputOption != '2' &&
+          inputOption != '3' &&
+          inputOption != '4') {
+        print("1. Editar Empresa");
+        print("2. Editar Sócio");
+        print("3. Cadastrar Endereço");
+        print("4. Cadastrar Telefone");
+        print("0. Voltar");
+      }
+
+      if (inputOption == '0') {
+        // Voltar menu inicial
+        menuInicial();
+      } else if (inputOption == '1') {
+        //Editar empresa
+        String idEmpresa = '-1';
+        editarEmpresa(idEmpresa);
+      } else if (inputOption == '2') {
+        // Editar sócio
+        String idSocio = '-1';
+        editarSocio(idSocio);
+      } else if (inputOption == '3') {
+        // Cadastrar endereço
+        if (getInputAddress().runtimeType == Endereco) {
+          listAddress.add(getInputAddress());
+          print("Novo endereço cadastrado!\n\n");
+        }
+      } else if (inputOption == '4') {
+        // Cadastrar telefone
+        if (getInputPhone().runtimeType == Telefone) {
+          listPhone.add(getInputPhone());
+          print("Novo telefone cadastrado!\n\n");
+        }
+        ;
+      } else {
+        print("Opção inválida: $inputOption!");
+      }
+
+      break;
+    case '0':
       subMenuOpcao6();
       break;
     case 'afl': // Menu para validação unitária de métodos
